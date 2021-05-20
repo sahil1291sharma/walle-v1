@@ -1,7 +1,7 @@
 from bson import ObjectId
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://test:testUser@cipchatapp.41mmy.mongodb.net/chatDB?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://test:badpassword@cipchatapp.41mmy.mongodb.net/chatDB?retryWrites=true&w=majority")
 
 
 
