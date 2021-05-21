@@ -48,18 +48,28 @@ def playermove(token, location):
 
     elif story[0] == "Token selection not valid":
         return "Token selection not valid"
-
     else:
         message = ''
         for snippet in story:
-            message += snippet
+            #message += snippet
+            region = (caselets[caselets["Code Detail"] == snippet]["Region"]).tolist()[0]
+            caselet_category = (caselets[caselets["Code Detail"] == snippet]["Caselet Categories"]).tolist()[0]
+            resident = (caselets[caselets["Code Detail"] == snippet]["Associated Resident (Residential Caselets Only)"].dropna()).tolist()
             for token in Tokens:
                 if ((caselets[caselets["Code Detail"] == snippet][token]).tolist())[0] == "X":
-                    message += required_agent[token]
+                    if token == "FT" or token == "WT":
+                        message +=  caselet_category +" emergency in the region of " + region + " due to: "+ snippet + ((". Resident affected: "+ resident[0]) if len(resident)>0 else "") +". "
+                    #message += required_agent[token]
+                    elif token == "AM" or token == "PO":
+                        message += "Public health assistance needed in the region of "+region+" due to: "+snippet + ". "
+                    elif token == "SS":
+                        message += "Emergency in the region of " + region + ". " + caselet_category + " due to: " + snippet + ". "
+                    elif token == "RE":
+                        message += "Special report: " + caselet_category + " emergency in the region of " + region+ ". "
     return message
 
 
-
+print(playermove('re', '11m'))
 
 ##########CODE ENDS HERE##################################
 
